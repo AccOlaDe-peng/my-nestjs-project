@@ -1,11 +1,19 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { UserDocument } from "./user.schema";
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  // 注册Schema后，可以使用 @InjectModel() 装饰器将 User 模型注入到 UserService 中:
+  constructor(@InjectModel("User") private userTest: Model<UserDocument>) {}
+
+  async create(createUserDto: CreateUserDto) {
+    const createUser = new this.userTest(createUserDto);
+    const temp = await createUser.save();
+    return temp;
   }
 
   findAll() {
