@@ -5,12 +5,11 @@ import { Document } from "mongoose";
 export type UserDocument = User & Document;
 @Schema()
 export class User extends Document {
-  @Prop()
-  name: string;
-  // 设置值为必填
   @Prop({ required: true })
-  age: number;
-  @Prop()
-  height: number;
+  userId: number;
+  @Prop({ required: true })
+  username: string;
+  @Prop({ required: true })
+  password: string;
 }
 export const UserSchema = SchemaFactory.createForClass(User);
