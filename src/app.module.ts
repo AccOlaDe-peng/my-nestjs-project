@@ -5,6 +5,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 // import { LoggingInterceptor } from "./common/interceptors/logging.interceptor";
 import { UserModule } from "./modules/user/user.module";
 import { AuthModule } from "./modules/auth/auth.module";
+import { AppController } from "./app.controller";
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { AuthModule } from "./modules/auth/auth.module";
     UserModule,
     MongooseModule.forRoot("mongodb://localhost/nest")
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [
     // { provide: APP_GUARD, useClass: RolesGuard },
     // {
