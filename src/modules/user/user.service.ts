@@ -8,27 +8,27 @@ import { UserDocument } from "./user.schema";
 @Injectable()
 export class UserService {
   // 注册Schema后，可以使用 @InjectModel() 装饰器将 User 模型注入到 UserService 中:
-  constructor(@InjectModel("User") private userTest: Model<UserDocument>) {}
+  constructor(@InjectModel("User") private userModel: Model<UserDocument>) {}
 
   async create(createUserDto: CreateUserDto) {
-    const createUser = new this.userTest(createUserDto);
+    const createUser = new this.userModel(createUserDto);
     const temp = await createUser.save();
     return temp;
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll() {
+    return await this.userModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string) {
+    return await this.userModel.findById(id).exec();
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    return await this.userModel.updateOne({ id }, updateUserDto).exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: string) {
+    return await this.userModel.deleteOne({ id }).exec();
   }
 }

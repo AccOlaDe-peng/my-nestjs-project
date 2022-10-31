@@ -6,6 +6,6 @@ import { UserModule } from "./modules/user/user.module";
   imports: [UserModule, MongooseModule.forRoot("mongodb://localhost/nest")],
   // imports: [UserModule],
   controllers: [],
-  providers: [],
+  providers: []
 })
 export class AppModule {}
