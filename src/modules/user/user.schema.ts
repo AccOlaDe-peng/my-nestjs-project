@@ -1,3 +1,10 @@
+/**
+ * @description:
+ * @author: pengrenchang
+ * @Date: 2022-11-14 17:50:28
+ * @LastEditors: pengrenchang
+ * @LastEditTime: 2022-11-14 18:23:34
+ */
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 // @Prop 装饰器接受一个可选的参数，通过这个，你可以指示这个属性是否是必须的，是否需要默认值，或者是标记它作为一个常量，下面是例子
 // SchemaFactory 是 mongoose 内置的一个方法做用是读取模式文档 并创建 Schema 对象
@@ -5,11 +12,15 @@ import { Document } from "mongoose";
 export type UserDocument = User & Document;
 @Schema()
 export class User extends Document {
-  @Prop({ required: true })
-  userId: number;
-  @Prop({ required: true })
-  username: string;
-  @Prop({ required: true })
-  password: string;
+    @Prop({})
+    realName: string;
+    @Prop({ required: true })
+    accountName: string;
+    @Prop({ required: true })
+    password: string;
+    @Prop({})
+    repassword: string;
+    @Prop({})
+    mobile: string;
 }
 export const UserSchema = SchemaFactory.createForClass(User);
