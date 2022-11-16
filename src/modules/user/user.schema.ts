@@ -3,7 +3,7 @@
  * @author: pengrenchang
  * @Date: 2022-11-14 17:50:28
  * @LastEditors: pengrenchang
- * @LastEditTime: 2022-11-14 18:23:34
+ * @LastEditTime: 2022-11-16 17:58:17
  */
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 // @Prop 装饰器接受一个可选的参数，通过这个，你可以指示这个属性是否是必须的，是否需要默认值，或者是标记它作为一个常量，下面是例子
@@ -15,12 +15,18 @@ export class User extends Document {
     @Prop({})
     realName: string;
     @Prop({ required: true })
-    accountName: string;
+    username: string;
     @Prop({ required: true })
     password: string;
     @Prop({})
     repassword: string;
     @Prop({})
     mobile: string;
+    @Prop({})
+    passwd_salt: string;
+    @Prop({})
+    user_status: string;
+    @Prop({})
+    role: string;
 }
 export const UserSchema = SchemaFactory.createForClass(User);

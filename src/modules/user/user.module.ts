@@ -3,11 +3,10 @@
  * @author: pengrenchang
  * @Date: 2022-11-14 17:50:25
  * @LastEditors: pengrenchang
- * @LastEditTime: 2022-11-14 17:50:25
+ * @LastEditTime: 2022-11-16 18:15:07
  */
 import { Module } from "@nestjs/common";
 import { UserService } from "./user.service";
-import { UserController } from "./user.controller";
 import { UserSchema } from "./user.schema";
 import { MongooseModule } from "@nestjs/mongoose";
 
@@ -15,7 +14,7 @@ import { MongooseModule } from "@nestjs/mongoose";
     imports: [
         MongooseModule.forFeature([{ name: "User", schema: UserSchema }])
     ],
-    controllers: [UserController],
+    // controllers: [UserController],
     providers: [UserService],
     exports: [UserService]
 })

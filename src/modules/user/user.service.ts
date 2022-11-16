@@ -3,11 +3,12 @@
  * @author: pengrenchang
  * @Date: 2022-11-14 17:50:35
  * @LastEditors: pengrenchang
- * @LastEditTime: 2022-11-14 18:27:48
+ * @LastEditTime: 2022-11-16 17:58:31
  */
+import { Model } from "mongoose";
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { encryptPassword, makeSalt } from "src/utils/cryptogram.util";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserDocument } from "./user.schema";
@@ -17,26 +18,32 @@ export class UserService {
     // 注册Schema后，可以使用 @InjectModel() 装饰器将 User 模型注入到 UserService 中:
     constructor(@InjectModel("User") private userModel: Model<UserDocument>) {}
 
-    async create(createUserDto: CreateUserDto) {
-        const { password, repassword, accountName } = createUserDto;
-        console.log(password, repassword);
+    async register(createUserDto: CreateUserDto) {
+        const { password, repassword, username } = createUserDto;
         if (password !== repassword) {
             return {
                 code: 400,
                 msg: "两次密码输入不一致"
             };
         }
-        const user = await this.findOne(accountName);
-        console.log(user);
+        const user = await this.userModel.findOne({ username });
+        if (user) {
+            return {
+                code: 400,
+                msg: "用户已存在"
+            };
+        }
 
-        // if (user) {
-        //     return {
-        //         code: 400,
-        //         msg: "用户已存在"
-        //     };
-        // }
+        const salt = makeSalt(); // 制作密码盐
+        const hashPwd = encryptPassword(password, salt); // 加密密码
 
-        const createUser = new this.userModel(createUserDto);
+        const registerUser = {
+            username,
+            password: hashPwd,
+            passwd_salt: salt
+        };
+
+        const createUser = new this.userModel(registerUser);
         const temp = await createUser.save();
         return temp;
     }
@@ -45,8 +52,12 @@ export class UserService {
         return await this.userModel.find().exec();
     }
 
-    async findOne(id: string) {
+    async findById(id: string) {
         return await this.userModel.findById(id).exec();
+    }
+
+    async findOne(params: object) {
+        return await this.userModel.findOne(params).exec();
     }
 
     async update(id: string, updateUserDto: UpdateUserDto) {
