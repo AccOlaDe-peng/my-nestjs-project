@@ -3,7 +3,7 @@
  * @author: pengrenchang
  * @Date: 2022-11-16 16:41:10
  * @LastEditors: pengrenchang
- * @LastEditTime: 2022-11-16 16:51:22
+ * @LastEditTime: 2022-11-18 16:10:26
  */
 import { Module } from "@nestjs/common";
 import { AuthService } from "./auth.service";
@@ -24,7 +24,7 @@ import { JwtStrategy } from "./jwt.strategy";
             signOptions: { expiresIn: "8h" }
         })
     ],
-    providers: [AuthService, LocalStrategy, JwtStrategy],
+    providers: [AuthService, JwtStrategy, LocalStrategy],
     exports: [AuthService]
 })
 export class AuthModule {}

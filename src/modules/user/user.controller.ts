@@ -3,7 +3,7 @@
  * @author: pengrenchang
  * @Date: 2022-11-14 17:52:15
  * @LastEditors: pengrenchang
- * @LastEditTime: 2022-11-16 18:26:19
+ * @LastEditTime: 2022-11-18 16:07:12
  */
 import {
     Controller,
@@ -29,7 +29,6 @@ export class UserController {
         private readonly authService: AuthService
     ) {}
 
-    @UseGuards(AuthGuard("jwt"))
     @Post("register")
     async register(@Body() body: CreateUserDto) {
         return await this.userService.register(body);
@@ -39,7 +38,7 @@ export class UserController {
     async login(@Body() loginParams: any) {
         console.log("JWT验证 - Step 1: 用户请求登录");
         const authResult = await this.authService.validateUser(
-            loginParams.accountName,
+            loginParams.username,
             loginParams.password
         );
         switch (authResult.code) {
@@ -58,6 +57,7 @@ export class UserController {
         }
     }
 
+    @UseGuards(AuthGuard("jwt"))
     @Get()
     findAll() {
         return this.userService.findAll();

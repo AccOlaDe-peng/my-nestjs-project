@@ -3,16 +3,17 @@
  * @author: pengrenchang
  * @Date: 2022-11-16 16:24:48
  * @LastEditors: pengrenchang
- * @LastEditTime: 2022-11-16 16:43:08
+ * @LastEditTime: 2022-11-18 16:25:24
  */
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { PassportStrategy } from "@nestjs/passport";
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { jwtConstants } from "./constants";
+import { AuthService } from "./auth.service";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-    constructor() {
+    constructor(private readonly authService: AuthService) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
@@ -23,6 +24,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     // JWT验证 - Step 4: 被守卫调用
     async validate(payload: any) {
         console.log(`JWT验证 - Step 4: 被守卫调用`);
-        return { userId: payload.sub, username: payload.username };
+        const user = await this.authService.validateUser(
+            payload.username,
+            payload.password
+        );
+        if (!user) {
+            throw new UnauthorizedException();
+        }
+        return user;
     }
 }
