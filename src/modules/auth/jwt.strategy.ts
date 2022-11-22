@@ -16,7 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor(private readonly authService: AuthService) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: false,
+            ignoreExpiration: false, // 请求被拒默认返回401未经授权的错误码
             secretOrKey: jwtConstants.secret
         });
     }

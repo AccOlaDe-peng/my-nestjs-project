@@ -57,12 +57,12 @@ export class UserController {
         }
     }
 
-    @UseGuards(AuthGuard("jwt"))
     @Get()
     findAll() {
         return this.userService.findAll();
     }
 
+    @UseGuards(AuthGuard("jwt"))
     @Get(":id")
     findOne(@Param("id") id: string) {
         return this.userService.findById(id);

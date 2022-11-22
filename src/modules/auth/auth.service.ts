@@ -72,4 +72,18 @@ export class AuthService {
             };
         }
     }
+
+    /**
+     * @token验证方法
+     * @param token
+     */
+    async verifyToken(token: string): Promise<any> {
+        try {
+            if (!token) return false;
+            const id = this.jwtService.verify(token.replace("Nestjs ", ""));
+            return id;
+        } catch (e) {
+            return false;
+        }
+    }
 }
