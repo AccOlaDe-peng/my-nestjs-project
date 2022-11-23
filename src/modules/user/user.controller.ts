@@ -3,7 +3,7 @@
  * @author: pengrenchang
  * @Date: 2022-11-14 17:52:15
  * @LastEditors: pengrenchang
- * @LastEditTime: 2022-11-18 16:07:12
+ * @LastEditTime: 2022-11-23 11:05:52
  */
 import {
     Controller,
@@ -20,7 +20,6 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { AuthService } from "../auth/auth.service";
 import { AuthGuard } from "@nestjs/passport";
-// import { Roles } from "src/common/decorators/roles.decorator";
 
 @Controller("user")
 export class UserController {
