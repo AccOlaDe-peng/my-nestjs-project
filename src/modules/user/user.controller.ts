@@ -3,7 +3,7 @@
  * @author: pengrenchang
  * @Date: 2022-11-14 17:52:15
  * @LastEditors: pengrenchang
- * @LastEditTime: 2022-11-23 14:44:09
+ * @LastEditTime: 2022-11-23 15:51:51
  */
 import {
     Controller,
@@ -13,13 +13,15 @@ import {
     Param,
     Delete,
     Put,
-    UseGuards
+    UseGuards,
+    UsePipes
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { AuthService } from "../auth/auth.service";
 import { AuthGuard } from "@nestjs/passport";
+import { ValidationPipe } from "src/common/pipes/validation.pipe";
 
 @Controller("user")
 export class UserController {
@@ -28,6 +30,7 @@ export class UserController {
         private readonly authService: AuthService
     ) {}
 
+    @UsePipes(new ValidationPipe())
     @Post("register")
     async register(@Body() body: CreateUserDto) {
         return await this.userService.register(body);
