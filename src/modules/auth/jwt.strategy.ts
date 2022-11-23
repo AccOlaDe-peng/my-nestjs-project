@@ -3,7 +3,7 @@
  * @author: pengrenchang
  * @Date: 2022-11-16 16:24:48
  * @LastEditors: pengrenchang
- * @LastEditTime: 2022-11-18 16:25:24
+ * @LastEditTime: 2022-11-23 11:06:44
  */
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { PassportStrategy } from "@nestjs/passport";
@@ -21,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         });
     }
 
-    // JWT验证 - Step 4: 被守卫调用
+    // JWT验证 - Step 4: 被守卫调用 'Bearer '
     async validate(payload: any) {
         console.log(`JWT验证 - Step 4: 被守卫调用`);
         const user = await this.authService.validateUser(
