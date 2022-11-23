@@ -3,7 +3,7 @@
  * @author: pengrenchang
  * @Date: 2022-11-14 17:52:15
  * @LastEditors: pengrenchang
- * @LastEditTime: 2022-11-23 15:51:51
+ * @LastEditTime: 2022-11-23 18:14:48
  */
 import {
     Controller,
@@ -22,6 +22,9 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 import { AuthService } from "../auth/auth.service";
 import { AuthGuard } from "@nestjs/passport";
 import { ValidationPipe } from "src/common/pipes/validation.pipe";
+import { RbacInterceptor } from "src/common/interceptors/rbac.interceptors";
+import { ROLE_CONSTANTS } from "../auth/constants";
+import { RolesGuard } from "src/common/guards/roles.guard";
 
 @Controller("user")
 export class UserController {
@@ -64,6 +67,7 @@ export class UserController {
         return this.userService.findAll();
     }
 
+    @UseGuards(new RolesGuard(ROLE_CONSTANTS.HUMAN)) //RBAC 0
     @UseGuards(AuthGuard("jwt"))
     @Get(":id")
     findOne(@Param("id") id: string) {

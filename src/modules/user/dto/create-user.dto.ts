@@ -3,7 +3,7 @@
  * @author: pengrenchang
  * @Date: 2022-11-14 18:27:28
  * @LastEditors: pengrenchang
- * @LastEditTime: 2022-11-23 15:56:36
+ * @LastEditTime: 2022-11-23 16:31:47
  */
 import { IsNotEmpty } from "class-validator";
 
@@ -16,5 +16,5 @@ export class CreateUserDto {
     @IsNotEmpty({ message: "重复密码不能为空" })
     readonly repassword: string;
     readonly mobile?: number;
-    readonly role?: string | number;
+    readonly role?: number;
 }

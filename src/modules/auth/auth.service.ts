@@ -3,7 +3,7 @@
  * @author: pengrenchang
  * @Date: 2022-11-16 16:30:58
  * @LastEditors: pengrenchang
- * @LastEditTime: 2022-11-17 14:29:28
+ * @LastEditTime: 2022-11-23 17:42:21
  */
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
@@ -51,8 +51,7 @@ export class AuthService {
     async certificate(user: any) {
         const payload = {
             username: user.username,
-            sub: user.userId,
-            realName: user.realName,
+            password: user.password,
             role: user.role
         };
         console.log("JWT验证 - Step 3: 处理 jwt 签证");

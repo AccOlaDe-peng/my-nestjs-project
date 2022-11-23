@@ -3,7 +3,7 @@
  * @author: pengrenchang
  * @Date: 2022-11-14 17:50:35
  * @LastEditors: pengrenchang
- * @LastEditTime: 2022-11-23 14:47:41
+ * @LastEditTime: 2022-11-23 16:33:22
  */
 import { Model } from "mongoose";
 import { Injectable } from "@nestjs/common";
@@ -12,6 +12,7 @@ import { encryptPassword, makeSalt } from "src/utils/cryptogram.util";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserDocument } from "./user.schema";
+import { ROLE_CONSTANTS } from "../auth/constants";
 
 @Injectable()
 export class UserService {
@@ -19,7 +20,7 @@ export class UserService {
     constructor(@InjectModel("User") private userModel: Model<UserDocument>) {}
 
     async register(createUserDto: CreateUserDto) {
-        const { password, repassword, username } = createUserDto;
+        const { password, repassword, username, role } = createUserDto;
         if (password !== repassword) {
             return {
                 code: 400,
@@ -40,7 +41,8 @@ export class UserService {
         const registerUser = {
             username,
             password: hashPwd,
-            passwd_salt: salt
+            passwd_salt: salt,
+            role: role ? role : ROLE_CONSTANTS.HUMAN
         };
 
         const createUser = new this.userModel(registerUser);
